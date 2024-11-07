@@ -17,8 +17,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class MainController {
 
     private final ServletConfig servletConfig;
-    private UserService userService;
     private ModifacationUserDetailsService modifacationUserDetailsService;
+
+    @GetMapping("/")
+    public String index() {
+        return "index";
+    }
 
     @GetMapping("/admin")
     public String admin() {
@@ -28,44 +32,6 @@ public class MainController {
     @GetMapping("/admin/")
     public String rAdmin() {
         return "redirect:/admin";
-    }
-
-    @GetMapping("/all-user")
-    public String allUser() {
-        return "all-user";
-    }
-
-    @GetMapping("/all-user/")
-    public String rAllUser() {
-        return "redirect:/all-user";
-    }
-
-    @GetMapping("/register")
-    public String register() {
-        return "register";
-    }
-
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
-
-    @PostMapping("/api/login")
-    public String login(HttpServletRequest request) {
-        modifacationUserDetailsService.loadUserByUsername(request.getParameter("username"));
-        return "redirect:/all-user";
-    }
-
-    @PostMapping("/api/register")
-    public String registerUser(HttpServletRequest request) {
-        userService.add(
-                request.getParameter("mail"),
-                request.getParameter("password"),
-                request.getParameter("first_name"),
-                request.getParameter("last_name"),
-                "USER"
-        );
-        return "redirect:/login";
     }
 
 }
