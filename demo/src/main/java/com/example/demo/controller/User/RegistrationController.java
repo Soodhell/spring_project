@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.controller.User;
 
 
 import com.example.demo.service.UserService;
@@ -18,7 +18,7 @@ public class RegistrationController {
 
     @GetMapping("/register")
     public String register() {
-        return "register";
+        return "user/register";
     }
 
     @GetMapping("/register/")

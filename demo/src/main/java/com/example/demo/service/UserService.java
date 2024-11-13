@@ -25,6 +25,25 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public void set(String mail, String password, String firstName, String lastName, String roles) {
+        Optional<User> userOptional = userRepository.findByMail(mail);
+
+        if (userOptional.isEmpty())  return;
+
+        User user = userOptional.get();
+        user.setPassword(passwordEncoder.encode(password));
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setRoles(roles);
+
+        userRepository.save(user);
+
+    }
+
+    public void delete(String mail) {
+        userRepository.deleteUserByMail(mail);
+    }
+
     public Optional<User> getUser(String mail) {
         return userRepository.findByMail(mail);
     }
