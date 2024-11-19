@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +20,11 @@ public class NewsController {
 
     private NewsService newsService;
     private UserRepository userRepository;
+
+    @GetMapping("/news")
+    public String news(Model model){
+        return "news/news";
+    }
 
     @GetMapping("/news/add")
     public String add(){

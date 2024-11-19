@@ -12,10 +12,16 @@ public class ConfigMVC implements WebMvcConfigurer {
     @Value("${css.path}")
     private String cssPath;
 
+    @Value("${img.path}")
+    private String imgPath;
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/css/**")
                 .addResourceLocations("file://" + cssPath + "/");
+
+        registry.addResourceHandler("/img/**")
+                .addResourceLocations("file://" + imgPath + "/");
     }
 
 }

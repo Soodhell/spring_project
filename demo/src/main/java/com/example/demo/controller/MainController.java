@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.service.news.NewsService;
 import com.example.demo.service.users.ModifacationUserDetailsService;
 import jakarta.servlet.ServletConfig;
 import lombok.AllArgsConstructor;
@@ -19,9 +20,11 @@ public class MainController {
     private ModifacationUserDetailsService modifacationUserDetailsService;
     @Autowired
     SessionRegistry sessionRegistry;
+    private NewsService newsService;
 
     @GetMapping("/")
     public String index(Model model) {
+        model.addAttribute("news", newsService.selectAll());
         return "index";
     }
 

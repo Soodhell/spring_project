@@ -10,9 +10,11 @@
     </head>
     <body>
 
-    <#if user??>
-        ${user}
-    </#if>
+    <#list news as new>
+        ${new.title}
+        ${new.content}
+        <img src="/img/${new.nameImg}" width="300" height="300">
+    </#list>
 
 
     </body>
