@@ -1,8 +1,8 @@
-package com.example.demo.service;
+package com.example.demo.service.users;
 
-import com.example.demo.model.ModifacationUserDetails;
-import com.example.demo.model.User;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.model.users.ModifacationUserDetails;
+import com.example.demo.model.users.User;
+import com.example.demo.repository.users.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

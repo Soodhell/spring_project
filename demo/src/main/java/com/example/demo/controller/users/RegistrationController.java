@@ -1,7 +1,7 @@
-package com.example.demo.controller.User;
+package com.example.demo.controller.users;
 
 
-import com.example.demo.service.UserService;
+import com.example.demo.service.users.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,7 +18,7 @@ public class RegistrationController {
 
     @GetMapping("/register")
     public String register() {
-        return "user/register";
+        return "users/register";
     }
 
     @GetMapping("/register/")

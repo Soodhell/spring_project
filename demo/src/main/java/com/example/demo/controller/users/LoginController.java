@@ -1,4 +1,4 @@
-package com.example.demo.controller.User;
+package com.example.demo.controller.users;
 
 
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class LoginController {
     @GetMapping("/login")
     public String login() {
-        return "user/login";
+        return "users/login";
     }
 
     @GetMapping("/login/")

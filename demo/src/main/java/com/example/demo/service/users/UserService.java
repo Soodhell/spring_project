@@ -1,9 +1,8 @@
-package com.example.demo.service;
+package com.example.demo.service.users;
 
-import com.example.demo.model.User;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.model.users.User;
+import com.example.demo.repository.users.UserRepository;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +30,7 @@ public class UserService {
         if (userOptional.isEmpty())  return;
 
         User user = userOptional.get();
-        user.setPassword(passwordEncoder.encode(password));
+        user.setPassword(password);
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setRoles(roles);
@@ -41,7 +40,9 @@ public class UserService {
     }
 
     public void delete(String mail) {
-        userRepository.deleteUserByMail(mail);
+        Optional<User> user = userRepository.findByMail(mail);
+        if (user.isEmpty())  return;
+        userRepository.delete(user.get());
     }
 
     public Optional<User> getUser(String mail) {

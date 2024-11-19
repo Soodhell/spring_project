@@ -1,9 +1,7 @@
-package com.example.demo.model;
+package com.example.demo.model.users;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "users")
