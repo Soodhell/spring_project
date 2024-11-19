@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -19,11 +21,16 @@ public class NewsService {
     private NewsRepository newsRepository;
     private UserRepository userRepository;
 
+    private final Map<Long, News> news = new HashMap<>();
+
     public News getNew(Long id){
-        return newsRepository.getReferenceById(id);
+        if(news.isEmpty()) loadNews();
+        return news.get(id);
     }
 
     public void setNews(Long id, String title, String content, MultipartFile file, String mail) {
+        if(news.isEmpty()) loadNews();
+
         News news = newsRepository.getReferenceById(id);
 
         news.setTitle(title);
@@ -42,14 +49,17 @@ public class NewsService {
         }
 
         newsRepository.save(news);
+        this.news.put(news.getId(), news);
 
     }
 
-    public List<News> selectAll() {
-        return newsRepository.findAll();
+    public Map<Long, News> selectAll() {
+        if(news.isEmpty()) loadNews();
+        return news;
     }
 
     public void save(String title, String content, MultipartFile file, User user){
+        if(news.isEmpty()) loadNews();
 
         News news = new News();
         news.setTitle(title);
@@ -67,6 +77,13 @@ public class NewsService {
         }
 
         newsRepository.save(news);
+        this.news.put(news.getId(), news);
+    }
+
+    private void loadNews(){
+        for(News item : newsRepository.findAll()){
+            news.put(item.getId(), item);
+        }
     }
 
 }

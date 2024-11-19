@@ -9,14 +9,14 @@
         <title>Document</title>
     </head>
     <body>
-
-    <#list news as new>
-        ${new.title}
-        ${new.content}
-        <img src="/img/${new.nameImg}" width="300" height="300">
-        <br>
-    </#list>
-
-
+        <#assign key_list = news?keys/>
+        <#assign value_list = news?values/>
+        <#list key_list as key>
+            <#assign seq_index = key_list?seq_index_of(key) />
+            <#assign key_value = value_list[seq_index]/>
+            title: ${key_value.title} <br>
+            content : ${key_value.content} <br>
+            <img src="/img/${key_value.nameImg}" alt="" width="300" height="300"><br>
+        </#list>
     </body>
 </html>

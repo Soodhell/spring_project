@@ -24,6 +24,7 @@ public class MainController {
 
     @GetMapping("/")
     public String index(Model model) {
+        System.out.println(newsService.selectAll());
         model.addAttribute("news", newsService.selectAll());
         return "index";
     }
