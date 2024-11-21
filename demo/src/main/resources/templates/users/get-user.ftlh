@@ -17,5 +17,14 @@
             Error
         </#if>
 
+        <br>
+
+        <#if sections??>
+            <#list sections as section>
+                ${section.section.title}
+                <img src="/img/${section.section.nameImg}" width="300" height="300">
+            </#list>
+        </#if>
+
     </body>
 </html>

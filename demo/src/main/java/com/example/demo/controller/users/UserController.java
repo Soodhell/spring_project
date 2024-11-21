@@ -1,7 +1,10 @@
 package com.example.demo.controller.users;
 
 
+import com.example.demo.model.registrationSection.RegistrationSection;
+import com.example.demo.model.sections.Sections;
 import com.example.demo.model.users.User;
+import com.example.demo.service.registrationSection.RegistrationSectionService;
 import com.example.demo.service.users.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -22,7 +26,8 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserController {
 
-    UserService userService;
+    private UserService userService;
+    private RegistrationSectionService registrationSectionService;
 
     @GetMapping("/update/{mail}")
     public String update(@PathVariable("mail") String mail, Model model){
@@ -93,8 +98,14 @@ public class UserController {
 
     @GetMapping("/get-user/{mail}")
     public String getUser(@PathVariable String mail, Model model){
-        if(userService.getUser(mail).isPresent()) model.addAttribute("user",userService.getUser(mail).get());
-            else model.addAttribute("user",null);
+        if(userService.getUser(mail).isPresent()) {
+            model.addAttribute("user",userService.getUser(mail).get());
+            model.addAttribute("sections", registrationSectionService.getFindAll(mail));
+        }
+        else {
+                model.addAttribute("user",null);
+                model.addAttribute("sections", null);
+        }
         return "users/get-user";
     }
 

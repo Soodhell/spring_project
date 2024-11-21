@@ -36,7 +36,7 @@ public class ConfigSecurity
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/all-user", true)
+                        .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
                 .build();

@@ -9,9 +9,12 @@
     </head>
     <body>
 
+    <#if new??>
         title: ${new.title}<br>
         content: ${new.content}<br>
         <img src="/img/${new.nameImg}" alt="" width="300" height="300">
+    </#if>
+
         
 
     </body>
