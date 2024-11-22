@@ -32,6 +32,11 @@ public class SectionsService {
         return sections.get(id);
     }
 
+    public Map<Long, Sections> getSections(){
+        if(sections.isEmpty()) loadSections();
+        return sections;
+    }
+
     public void setSections(Long id, String title, String content, MultipartFile file, String mail) {
         if(sections.isEmpty()) loadSections();
 

@@ -4,6 +4,10 @@ package com.example.demo.controller.users;
 import com.example.demo.model.registrationSection.RegistrationSection;
 import com.example.demo.model.sections.Sections;
 import com.example.demo.model.users.User;
+import com.example.demo.representationObjects.registration.RepresentationRegistrationSections;
+import com.example.demo.representationObjects.sections.RepresentationSections;
+import com.example.demo.representationObjects.users.PerformanceUsers;
+import com.example.demo.representationObjects.users.RepresentationUsers;
 import com.example.demo.service.registrationSection.RegistrationSectionService;
 import com.example.demo.service.users.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,15 +17,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
-@Controller
+@RestController
 @Data
 @AllArgsConstructor
 public class UserController {
@@ -30,7 +33,7 @@ public class UserController {
     private RegistrationSectionService registrationSectionService;
 
     @GetMapping("/update/{mail}")
-    public String update(@PathVariable("mail") String mail, Model model){
+    public PerformanceUsers update(@PathVariable("mail") String mail){
         String mailUser = SecurityContextHolder
                 .getContext()
                 .getAuthentication()
@@ -40,21 +43,16 @@ public class UserController {
         if(mailUser.equals(mail)){
             Optional<User> userOptional = userService.getUser(mail);
 
-            if (userOptional.isEmpty()) return "redirect:/404";
+            if (userOptional.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
-            model.addAttribute("first_name", userOptional.get().getFirstName());
-            model.addAttribute("last_name", userOptional.get().getLastName());
-            model.addAttribute("mail",mail);
-
-            return "users/update";
+            return RepresentationUsers.getPerformanceUsers(userService.getUser(mail).get());
         }
-
-        return "redirect:/";
+        throw new ResponseStatusException(HttpStatus.FORBIDDEN);
 
     }
 
-    @PostMapping("/api/update/{mail}")
-    public String pUpdate(@PathVariable String mail, HttpServletRequest request){
+    @PatchMapping("/api/update/{mail}")
+    public void pUpdate(@PathVariable String mail, HttpServletRequest request){
 
         String mailUser = SecurityContextHolder
                 .getContext()
@@ -73,66 +71,34 @@ public class UserController {
             User user = userOptional.get();
 
             userService.set(user.getMail(), user.getPassword(), request.getParameter("firstname"), request.getParameter("lastname"), "USER");
-
-            return "redirect:/get-user/"+mail;
         }
 
-        return "redirect:/404";
+        throw new ResponseStatusException(HttpStatus.FORBIDDEN);
     }
 
-    @PostMapping("/api/delete/{mail}")
-    public String delete(@PathVariable("mail") String mail){
+    @DeleteMapping("/api/delete/{mail}")
+    public void delete(@PathVariable("mail") String mail){
         String mailUser = SecurityContextHolder
                 .getContext()
                 .getAuthentication()
                 .getName();
 
-        System.out.println(mailUser.equals(mail));
-
         if (mailUser.equals(mail))
             userService.delete(mail);
-        else return "redirect:/404";
-
-        return "redirect:/logout";
+        else throw new ResponseStatusException(HttpStatus.FORBIDDEN);
     }
 
     @GetMapping("/get-user/{mail}")
-    public String getUser(@PathVariable String mail, Model model){
+    public Object[] getUser(@PathVariable String mail){
         if(userService.getUser(mail).isPresent()) {
-            model.addAttribute("user",userService.getUser(mail).get());
-            model.addAttribute("sections", registrationSectionService.getFindAll(mail));
-        }
-        else {
-                model.addAttribute("user",null);
-                model.addAttribute("sections", null);
-        }
-        return "users/get-user";
-    }
 
-    @GetMapping("/all-user")
-    public String allUser() {
-        return "users/all-user";
-    }
+                Object[] objects = new Object[2];
+                objects[0] = RepresentationRegistrationSections.selectAll(registrationSectionService.getFindAll(mail));
+                objects[1] = RepresentationUsers.getPerformanceUsers(userService.getUser(mail).get());
 
+                return objects;
+            }
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
-    /*
-    * =========================================================================================
-    * =***************************************************************************************=
-    * =**********                                                                   **********=
-    * =**********                         ALL  REDIRECT                             **********=
-    * =**********                                                                   **********=
-    * =***************************************************************************************=
-    * =========================================================================================
-    */
-
-
-    @GetMapping("/get-user/{mail}/")
-    public String rGetUser(@PathVariable String mail){
-        return "redirect:/get-user/" + mail;
-    }
-
-    @GetMapping("/all-user/")
-    public String rAllUser() {
-        return "redirect:/all-user";
     }
 }

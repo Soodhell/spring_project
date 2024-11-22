@@ -1,18 +1,24 @@
 package com.example.demo.controller.sections;
 
+import com.example.demo.representationObjects.sections.PerformanceSections;
+import com.example.demo.representationObjects.sections.RepresentationSections;
 import com.example.demo.service.news.NewsService;
 import com.example.demo.service.sections.SectionsService;
 import com.example.demo.service.users.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
-@Controller
+import java.util.Map;
+
+@RestController
 @Data
 @AllArgsConstructor
 public class SectionsController {
@@ -21,16 +27,32 @@ public class SectionsController {
     private UserService userService;
 
     @GetMapping("/section/set/{id}")
-    public String sectionSet(@PathVariable Long id, Model model) {
-        model.addAttribute("section", sectionsService.getSections(id));
-        return "sections/set";
+    public PerformanceSections sectionSet(@PathVariable Long id) {
+        if(!userService.getUser(
+                        SecurityContextHolder
+                                .getContext()
+                                .getAuthentication()
+                                .getName()
+                )
+                .get()
+                .getRoles()
+                .equals("ADMIN")
+        ) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        return RepresentationSections.getPerformanceSection(sectionsService.getSections(id));
     }
 
-    @PostMapping("/section/api/set/{id}")
-    public String sectionSet(@PathVariable Long id, @RequestParam("file") MultipartFile file, HttpServletRequest http) {
-
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-
+    @PatchMapping("/section/api/set/{id}")
+    public void sectionSet(@PathVariable Long id, @RequestParam("file") MultipartFile file, HttpServletRequest http) {
+        if(!userService.getUser(
+                        SecurityContextHolder
+                                .getContext()
+                                .getAuthentication()
+                                .getName()
+                )
+                .get()
+                .getRoles()
+                .equals("ADMIN")
+        ) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         sectionsService.setSections(
                 id,
                 http.getParameter("title"),
@@ -38,32 +60,36 @@ public class SectionsController {
                 file,
                 http.getParameter("teacher")
         );
-        return "redirect:/section/get/" + id;
-
     }
 
     @GetMapping("/section/get/{id}")
-    public String sectionGet(@PathVariable Long id, Model model) {
-        model.addAttribute("section", sectionsService.getSections(id));
-        return "sections/get";
+    public PerformanceSections sectionGet(@PathVariable Long id) {
+        return RepresentationSections.getPerformanceSection(sectionsService.getSections(id));
     }
 
-    @GetMapping("/section/add")
-    public String add(){
-        return "sections/add";
-    }
-
-    @PostMapping("/section/api/add")
-    public String apiAdd(@RequestParam("file") MultipartFile file, HttpServletRequest http){
-
+    @PutMapping("/section/api/add")
+    public void apiAdd(@RequestParam("file") MultipartFile file, HttpServletRequest http){
+        if(!userService.getUser(
+                        SecurityContextHolder
+                                .getContext()
+                                .getAuthentication()
+                                .getName()
+                )
+                .get()
+                .getRoles()
+                .equals("ADMIN")
+        ) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         sectionsService.save(
                 http.getParameter("title"),
                 http.getParameter("content"),
                 file,
                 http.getParameter("teacher")
         );
+    }
 
-        return "redirect:/";
+    @GetMapping("/sections")
+    public Map<Long, PerformanceSections> getSections(){    
+        return RepresentationSections.getPerformanceSections(sectionsService.getSections());
     }
 
 }

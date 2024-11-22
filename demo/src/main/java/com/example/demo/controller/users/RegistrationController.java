@@ -8,26 +8,23 @@ import lombok.Data;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @Data
 @AllArgsConstructor
 public class RegistrationController {
 
     private UserService userService;
 
-    @GetMapping("/register")
-    public String register() {
-        return "users/register";
-    }
+//    @GetMapping("/register")
+//    public String register() {
+//        return "users/register";
+//    }
 
-    @GetMapping("/register/")
-    public String rRegister() {
-        return "redirect:/register";
-    }
-
-    @PostMapping("/api/register")
-    public String register(HttpServletRequest request) {
+    @PutMapping("/api/register")
+    public void register(HttpServletRequest request) {
         userService.add(
                 request.getParameter("mail"),
                 request.getParameter("password"),
@@ -35,7 +32,6 @@ public class RegistrationController {
                 request.getParameter("last_name"),
                 "USER"
         );
-        return "redirect:/login";
     }
 
 }

@@ -50,13 +50,13 @@ public class RegistrationSectionService {
         return registrationSections;
     }
 
-    public List<RegistrationSection> getFindAll(String mail){
+    public Map<Long, RegistrationSection> getFindAll(String mail){
         if(registrationSections.isEmpty()) loadRegistrationSections();
 
-        List<RegistrationSection> registrationSections = new ArrayList<>();
+        Map<Long, RegistrationSection> registrationSections = new HashMap<>();
         for(Map.Entry<Long, RegistrationSection> registrationSection : this.registrationSections.entrySet()){
             if(registrationSection.getValue().getUser().getMail().equals(mail)){
-                registrationSections.add(registrationSection.getValue());
+                registrationSections.put(registrationSection.getKey(), registrationSection.getValue());
             }
         }
         return registrationSections;
