@@ -1,11 +1,8 @@
 package com.example.demo.representationObjects.sections;
 
-import com.example.demo.model.sections.Sections;
-import com.example.demo.service.sections.SectionsService;
-import com.example.demo.service.users.UserService;
+import com.example.demo.sections.models.Sections;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.context.annotation.Bean;
 
 import java.util.HashMap;
 import java.util.Map;

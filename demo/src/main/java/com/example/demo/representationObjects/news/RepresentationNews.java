@@ -1,20 +1,20 @@
 package com.example.demo.representationObjects.news;
 
-import com.example.demo.model.news.News;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import com.example.demo.news.models.News;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class RepresentationNews {
 
-    public static Map<Long, PerformanceNews> selectAll(Map<Long, News> news) {
+    public static List<PerformanceNews> selectAll(Map<Long, News> news) {
 
-        Map<Long, PerformanceNews> result = new HashMap<>();
+        List<PerformanceNews> result = new ArrayList<>();
 
         for (News newsItem : news.values()) {
-            result.put(newsItem.getId(), new PerformanceNews(
+            result.add(new PerformanceNews(
+                    newsItem.getId(),
                     newsItem.getTitle(),
                     newsItem.getContent(),
                     newsItem.getAuthor().getMail(),
@@ -27,6 +27,7 @@ public class RepresentationNews {
 
     public static PerformanceNews getNews(News news) {
         return new PerformanceNews(
+                news.getId(),
                 news.getTitle(),
                 news.getContent(),
                 news.getAuthor().getMail(),

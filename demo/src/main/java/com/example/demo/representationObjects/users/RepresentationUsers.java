@@ -1,6 +1,6 @@
 package com.example.demo.representationObjects.users;
 
-import com.example.demo.model.users.User;
+import com.example.demo.users.models.User;
 
 public class RepresentationUsers {
 

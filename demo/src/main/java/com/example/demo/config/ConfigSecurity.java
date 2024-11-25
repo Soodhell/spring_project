@@ -1,6 +1,6 @@
 package com.example.demo.config;
 
-import com.example.demo.service.users.ModifacationUserDetailsService;
+import com.example.demo.users.services.ModifacationUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;

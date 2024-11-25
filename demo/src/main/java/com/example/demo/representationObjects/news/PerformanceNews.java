@@ -4,12 +4,14 @@ import lombok.Data;
 
 @Data
 public class PerformanceNews {
+    private Long id;
     private String title;
     private String content;
     private String author;
     private String nameImg;
 
-    public PerformanceNews(String title, String content, String author, String nameImg) {
+    public PerformanceNews(Long id, String title, String content, String author, String nameImg) {
+        this.id = id;
         this.title = title;
         this.content = content;
         this.author = author;

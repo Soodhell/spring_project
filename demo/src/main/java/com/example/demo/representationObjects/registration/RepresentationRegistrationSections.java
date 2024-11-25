@@ -1,6 +1,6 @@
 package com.example.demo.representationObjects.registration;
 
-import com.example.demo.model.registrationSection.RegistrationSection;
+import com.example.demo.registration.models.RegistrationSection;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,24 +1,18 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.news.News;
 import com.example.demo.representationObjects.news.PerformanceNews;
 import com.example.demo.representationObjects.news.RepresentationNews;
-import com.example.demo.service.news.NewsService;
-import com.example.demo.service.users.ModifacationUserDetailsService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import freemarker.core.JSONCFormat;
+import com.example.demo.news.services.NewsService;
+import com.example.demo.users.services.ModifacationUserDetailsService;
 import jakarta.servlet.ServletConfig;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
+import java.util.List;
 
 @RestController
 @Data
@@ -32,7 +26,7 @@ public class MainController {
     private NewsService newsService;
 
     @GetMapping("/")
-    public Map<Long, PerformanceNews> index() {
+    public List<PerformanceNews> index() {
         return RepresentationNews.selectAll(newsService.selectAll());
     }
 
