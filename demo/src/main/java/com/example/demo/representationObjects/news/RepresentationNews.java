@@ -18,7 +18,8 @@ public class RepresentationNews {
                     newsItem.getTitle(),
                     newsItem.getContent(),
                     newsItem.getAuthor().getMail(),
-                    newsItem.getNameImg()
+                    newsItem.getNameImg(),
+                    newsItem.getType_news()
             ));
         }
 
@@ -31,7 +32,8 @@ public class RepresentationNews {
                 news.getTitle(),
                 news.getContent(),
                 news.getAuthor().getMail(),
-                news.getNameImg()
+                news.getNameImg(),
+                news.getType_news()
         );
     }
 

@@ -27,13 +27,14 @@ public class NewsService {
         return news.get(id);
     }
 
-    public void setNews(Long id, String title, String content, MultipartFile file, String mail) {
+    public void setNews(Long id, String title, String content, MultipartFile file, String mail, int type_news) {
         if(news.isEmpty()) loadNews();
 
         News news = newsRepository.getReferenceById(id);
 
         news.setTitle(title);
         news.setContent(content);
+        news.setType_news(type_news);
         new File(news.getPathImg()).deleteOnExit();
         news.setAuthor(userRepository.findByMail(mail).get());
 
@@ -57,13 +58,14 @@ public class NewsService {
         return news;
     }
 
-    public void save(String title, String content, MultipartFile file, User user){
+    public void save(String title, String content, MultipartFile file, User user, int type_news){
         if(news.isEmpty()) loadNews();
 
         News news = new News();
         news.setTitle(title);
         news.setContent(content);
         news.setAuthor(user);
+        news.setType_news(type_news);
 
         String nameFile = UUID.randomUUID().toString() + file.getOriginalFilename();
         try {
@@ -77,6 +79,11 @@ public class NewsService {
 
         newsRepository.save(news);
         this.news.put(news.getId(), news);
+    }
+
+    public void delete(Long id){
+        newsRepository.delete(news.get(id));
+        this.news.remove(id);
     }
 
     private void loadNews(){

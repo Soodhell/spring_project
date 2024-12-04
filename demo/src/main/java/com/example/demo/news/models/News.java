@@ -20,6 +20,8 @@ public class News {
     private String pathImg;
     @Column(name = "name_img")
     private String nameImg;
+    @Column(name = "type_news")
+    private int type_news;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private User author;

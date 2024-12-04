@@ -8,6 +8,7 @@ import jakarta.servlet.ServletConfig;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,17 +28,7 @@ public class MainController {
 
     @GetMapping("/")
     public List<PerformanceNews> index() {
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
         return RepresentationNews.selectAll(newsService.selectAll());
     }
-
-//    @GetMapping("/admin")
-//    public String admin() {
-//        return "admin";
-//    }
-//
-//    @GetMapping("/admin/")
-//    public String rAdmin() {
-//        return "redirect:/admin";
-//    }
-
 }

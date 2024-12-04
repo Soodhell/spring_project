@@ -12,6 +12,7 @@
     <form action="/news/api/add" method="post" enctype="multipart/form-data">
         title:   <input type="text" name="title">
         content: <input type="text" name="content">
+        type_news: <input type="number" name="type_news">
         photo:   <input type="file" name="file">
         <input type="submit">
     </form>

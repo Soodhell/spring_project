@@ -1,5 +1,7 @@
 package com.example.demo.news.controllers;
 
+import com.example.demo.classDTO.news.NewsAddDTO;
+import com.example.demo.classDTO.news.NewsSetDTO;
 import com.example.demo.representationObjects.news.PerformanceNews;
 import com.example.demo.representationObjects.news.RepresentationNews;
 import com.example.demo.news.services.NewsService;
@@ -9,7 +11,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
@@ -22,23 +23,23 @@ public class NewsController {
     private NewsService newsService;
     private UserService userService;
 
-    @GetMapping("/news/set/{id}")
-    public PerformanceNews newsSet(@PathVariable Long id, Model model) {
-        if(!userService.getUser(
-                        SecurityContextHolder
-                                .getContext()
-                                .getAuthentication()
-                                .getName()
-                )
-                .get()
-                .getRoles()
-                .equals("ADMIN")
-        ) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-        return RepresentationNews.getNews(newsService.getNew(id));
-    }
+//    @GetMapping("/news/set/{id}")
+//    public PerformanceNews newsSet(@PathVariable Long id, Model model) {
+//        if(!userService.getUser(
+//                        SecurityContextHolder
+//                                .getContext()
+//                                .getAuthentication()
+//                                .getName()
+//                )
+//                .get()
+//                .getRoles()
+//                .equals("ADMIN")
+//        ) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+//        return RepresentationNews.getNews(newsService.getNew(id));
+//    }
 
-    @PatchMapping("/news/api/set/{id}")
-    public void newsSet(@PathVariable Long id, @RequestParam("file") MultipartFile file, HttpServletRequest http) {
+    @PatchMapping("/news/set/{id}")
+    public void newsSet(@PathVariable Long id, @RequestParam("file") MultipartFile file, @RequestBody NewsSetDTO newsSetDTO) {
         if(!userService.getUser(
                         SecurityContextHolder
                                 .getContext()
@@ -52,10 +53,11 @@ public class NewsController {
 
         newsService.setNews(
                 id,
-                http.getParameter("title"),
-                http.getParameter("content"),
+                newsSetDTO.getTitle(),
+                newsSetDTO.getContent(),
                 file,
-                newsService.getNew(id).getAuthor().getMail()
+                newsService.getNew(id).getAuthor().getMail(),
+                newsSetDTO.getType_news()
         );
     }
 
@@ -69,8 +71,8 @@ public class NewsController {
 //        return "news/add";
 //    }
 
-    @PostMapping("/news/api/add")
-    public void apiAdd(@RequestParam("file") MultipartFile file, HttpServletRequest http){
+    @PutMapping("/news/add")
+    public void apiAdd(@RequestParam("file") MultipartFile file, @RequestBody NewsAddDTO newsAddDTO){
         if(!userService.getUser(
                         SecurityContextHolder
                                 .getContext()
@@ -87,11 +89,29 @@ public class NewsController {
                                 .getName();
 
         newsService.save(
-                http.getParameter("title"),
-                http.getParameter("content"),
+                newsAddDTO.getTitle(),
+                newsAddDTO.getContent(),
                 file,
-                userService.getUser(userName).get()
+                userService.getUser(userName).get(),
+                newsAddDTO.getType_news()
         );
+    }
+
+    @DeleteMapping("/news/delete/{id}")
+    public void Delete(@PathVariable Long id) {
+        if(!userService.getUser(
+                        SecurityContextHolder
+                                .getContext()
+                                .getAuthentication()
+                                .getName()
+                )
+                .get()
+                .getRoles()
+                .equals("ADMIN")
+        ) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+
+        newsService.delete(id);
+
     }
 
 }

@@ -1,12 +1,13 @@
 package com.example.demo.users.controllers;
 
 
+import com.example.demo.classDTO.users.RegisterDTO;
 import com.example.demo.users.services.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Data
@@ -15,20 +16,24 @@ public class RegistrationController {
 
     private UserService userService;
 
+
 //    @GetMapping("/register")
 //    public String register() {
 //        return "users/register";
 //    }
 
-    @PutMapping("/api/register")
-    public void register(HttpServletRequest request) {
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody RegisterDTO registerDTO) {
+
         userService.add(
-                request.getParameter("mail"),
-                request.getParameter("password"),
-                request.getParameter("first_name"),
-                request.getParameter("last_name"),
+                registerDTO.getMail(),
+                registerDTO.getPassword(),
+                registerDTO.getFirst_name(),
+                registerDTO.getLast_name(),
                 "USER"
         );
+
+        return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
     }
 
 }

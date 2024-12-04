@@ -1,6 +1,7 @@
 package com.example.demo.users.controllers;
 
 
+import com.example.demo.classDTO.users.UpdateDTO;
 import com.example.demo.users.models.User;
 import com.example.demo.representationObjects.registration.RepresentationRegistrationSections;
 import com.example.demo.representationObjects.users.PerformanceUsers;
@@ -11,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -25,27 +27,27 @@ public class UserController {
     private UserService userService;
     private RegistrationSectionService registrationSectionService;
 
-    @GetMapping("/update/{mail}")
-    public PerformanceUsers update(@PathVariable("mail") String mail){
-        String mailUser = SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getName();
+//    @GetMapping("/update/{mail}")
+//    public PerformanceUsers update(@PathVariable("mail") String mail){
+//        String mailUser = SecurityContextHolder
+//                .getContext()
+//                .getAuthentication()
+//                .getName();
+//
+//
+//        if(mailUser.equals(mail)){
+//            Optional<User> userOptional = userService.getUser(mail);
+//
+//            if (userOptional.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+//
+//            return RepresentationUsers.getPerformanceUsers(userService.getUser(mail).get());
+//        }
+//        throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+//
+//    }
 
-
-        if(mailUser.equals(mail)){
-            Optional<User> userOptional = userService.getUser(mail);
-
-            if (userOptional.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-
-            return RepresentationUsers.getPerformanceUsers(userService.getUser(mail).get());
-        }
-        throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-
-    }
-
-    @PatchMapping("/api/update/{mail}")
-    public void pUpdate(@PathVariable String mail, HttpServletRequest request){
+    @PatchMapping("/update/{mail}")
+    public ResponseEntity<String> update(@PathVariable String mail, @RequestBody UpdateDTO updateDTO){
 
         String mailUser = SecurityContextHolder
                 .getContext()
@@ -63,14 +65,23 @@ public class UserController {
 
             User user = userOptional.get();
 
-            userService.set(user.getMail(), user.getPassword(), request.getParameter("firstname"), request.getParameter("lastname"), "USER");
+            userService.set(
+                    user.getMail(),
+                    user.getPassword(),
+                    updateDTO.getFirstname(),
+                    updateDTO.getLastname(),
+                    "USER"
+            );
+
+            return new ResponseEntity<>("User update success", HttpStatus.OK);
+
         }
 
         throw new ResponseStatusException(HttpStatus.FORBIDDEN);
     }
 
-    @DeleteMapping("/api/delete/{mail}")
-    public void delete(@PathVariable("mail") String mail){
+    @DeleteMapping("/delete/{mail}")
+    public ResponseEntity<String>  delete(@PathVariable("mail") String mail){
         String mailUser = SecurityContextHolder
                 .getContext()
                 .getAuthentication()
@@ -79,6 +90,8 @@ public class UserController {
         if (mailUser.equals(mail))
             userService.delete(mail);
         else throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+
+        return new ResponseEntity<>("User delete success", HttpStatus.OK);
     }
 
     @GetMapping("/get-user/{mail}")
