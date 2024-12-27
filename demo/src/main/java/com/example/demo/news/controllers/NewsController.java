@@ -25,23 +25,13 @@ public class NewsController {
     private NewsService newsService;
     private UserService userService;
 
-//    @GetMapping("/news/set/{id}")
-//    public PerformanceNews newsSet(@PathVariable Long id, Model model) {
-//        if(!userService.getUser(
-//                        SecurityContextHolder
-//                                .getContext()
-//                                .getAuthentication()
-//                                .getName()
-//                )
-//                .get()
-//                .getRoles()
-//                .equals("ADMIN")
-//        ) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-//        return RepresentationNews.getNews(newsService.getNew(id));
-//    }
-
     @PatchMapping("/news/set/{id}")
-    public void newsSet(@PathVariable Long id, @RequestParam("file") MultipartFile file, @RequestBody NewsSetDTO newsSetDTO) {
+    public void newsSet(
+            @PathVariable Long id,
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("title") String title,
+            @RequestParam("content") String content,
+            @RequestParam("type") String type) {
         if(!userService.getUser(
                         SecurityContextHolder
                                 .getContext()
@@ -55,11 +45,11 @@ public class NewsController {
 
         newsService.setNews(
                 id,
-                newsSetDTO.getTitle(),
-                newsSetDTO.getContent(),
+                title,
+                content,
                 file,
                 newsService.getNew(id).getAuthor().getMail(),
-                newsSetDTO.getType_news()
+                Integer.parseInt(type)
         );
     }
 
