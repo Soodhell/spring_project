@@ -15,11 +15,11 @@ import java.util.Optional;
 public class ModifacationUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService UserService;
 
     @Override
     public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByMail(mail);
+        Optional<User> user = UserService.getUser(mail);
         return user.map(ModifacationUserDetails::new)
                 .orElseThrow(() -> new UsernameNotFoundException(mail + " not found"));
     }

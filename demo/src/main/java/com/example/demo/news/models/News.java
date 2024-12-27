@@ -23,6 +23,6 @@ public class News {
     @Column(name = "type_news")
     private int type_news;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     private User author;
 }

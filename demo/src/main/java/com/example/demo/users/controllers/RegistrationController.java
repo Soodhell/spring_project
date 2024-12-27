@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class RegistrationController {
 
     private UserService userService;
+    private PasswordEncoder passwordEncoder;
 
 
 //    @GetMapping("/register")
@@ -27,7 +29,7 @@ public class RegistrationController {
 
         userService.add(
                 registerDTO.getMail(),
-                registerDTO.getPassword(),
+                passwordEncoder.encode(registerDTO.getPassword()),
                 registerDTO.getFirst_name(),
                 registerDTO.getLast_name(),
                 "USER"

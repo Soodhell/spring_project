@@ -28,7 +28,6 @@ public class MainController {
 
     @GetMapping("/")
     public List<PerformanceNews> index() {
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
         return RepresentationNews.selectAll(newsService.selectAll());
     }
 }

@@ -16,7 +16,6 @@ import java.util.Optional;
 @Data
 public class UserService {
     private UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
 
     private final HashMap<String, User> users = new HashMap<>();
 
@@ -30,7 +29,7 @@ public class UserService {
 
         User user = new User();
         user.setMail(mail);
-        user.setPassword(passwordEncoder.encode(password));
+        user.setPassword(password);
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setRoles(roles);

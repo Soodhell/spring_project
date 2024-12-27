@@ -6,10 +6,12 @@ import com.example.demo.representationObjects.news.PerformanceNews;
 import com.example.demo.representationObjects.news.RepresentationNews;
 import com.example.demo.news.services.NewsService;
 import com.example.demo.users.services.UserService;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -66,13 +68,12 @@ public class NewsController {
         return RepresentationNews.getNews(newsService.getNew(id));
     }
 
-//    @GetMapping("/news/add")
-//    public String add(){
-//        return "news/add";
-//    }
-
-    @PutMapping("/news/add")
-    public void apiAdd(@RequestParam("file") MultipartFile file, @RequestBody NewsAddDTO newsAddDTO){
+    @PutMapping(path = "/news/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void apiAdd(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("title") String title,
+            @RequestParam("content") String content,
+            @RequestParam("type") String type){
         if(!userService.getUser(
                         SecurityContextHolder
                                 .getContext()
@@ -89,11 +90,11 @@ public class NewsController {
                                 .getName();
 
         newsService.save(
-                newsAddDTO.getTitle(),
-                newsAddDTO.getContent(),
+                title,
+                content,
                 file,
                 userService.getUser(userName).get(),
-                newsAddDTO.getType_news()
+                Integer.parseInt(type)
         );
     }
 
