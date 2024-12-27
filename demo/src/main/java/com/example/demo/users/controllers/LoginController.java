@@ -82,7 +82,7 @@ public class LoginController {
 //    }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthDTO> loginPath(@RequestBody LoginDTO loginDTO, HttpServletRequest request) {
+    public ResponseEntity<AuthDTO> loginPath(@RequestBody LoginDTO loginDTO) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(

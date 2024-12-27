@@ -27,25 +27,6 @@ public class UserController {
     private UserService userService;
     private RegistrationSectionService registrationSectionService;
 
-//    @GetMapping("/update/{mail}")
-//    public PerformanceUsers update(@PathVariable("mail") String mail){
-//        String mailUser = SecurityContextHolder
-//                .getContext()
-//                .getAuthentication()
-//                .getName();
-//
-//
-//        if(mailUser.equals(mail)){
-//            Optional<User> userOptional = userService.getUser(mail);
-//
-//            if (userOptional.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-//
-//            return RepresentationUsers.getPerformanceUsers(userService.getUser(mail).get());
-//        }
-//        throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-//
-//    }
-
     @PatchMapping("/update/{mail}")
     public ResponseEntity<String> update(@PathVariable String mail, @RequestBody UpdateDTO updateDTO){
 

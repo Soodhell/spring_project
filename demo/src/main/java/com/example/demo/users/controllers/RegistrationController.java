@@ -18,12 +18,6 @@ public class RegistrationController {
     private UserService userService;
     private PasswordEncoder passwordEncoder;
 
-
-//    @GetMapping("/register")
-//    public String register() {
-//        return "users/register";
-//    }
-
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterDTO registerDTO) {
 

@@ -20,6 +20,6 @@ public class Sections {
     private String nameImg;
     @Column(name = "img_path")
     private String pathImg;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     private User teacher;
 }
