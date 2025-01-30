@@ -47,8 +47,17 @@ public class ConfigSecurity
         return http.csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login", "/register", "/news/get/**").permitAll()
-                        .requestMatchers("/**").authenticated()
+                        .requestMatchers(
+                                "/news/set/**",
+                                "/news/delete/**",
+                                "/news/add",
+                                "/registration-section/add/**",
+                                "/news_reg/**",
+                                "/section/**",
+                                "/update/**",
+                                "/delete/**")
+                        .authenticated()
+                        .requestMatchers("/**").permitAll()
                 )
                 .exceptionHandling(basic -> basic.authenticationEntryPoint(jwtAuthEntryPoint))
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

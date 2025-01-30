@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class UpdateDTO {
-    private String firstname;
-    private String lastname;
+    private String first_name;
+    private String last_name;
 }

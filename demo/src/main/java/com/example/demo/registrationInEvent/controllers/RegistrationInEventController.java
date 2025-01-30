@@ -22,7 +22,7 @@ public class RegistrationInEventController {
     private RegistrationInEventService registrationInEventService;
     private NewsService newsService;
 
-    @GetMapping("/news_reg_list/{mail}")
+    @GetMapping("/news_reg/list/{mail}")
     public List<PerformanceRegistration> listReg(@PathVariable String mail){
         return RepresentationRegistration.getPerformanceRegistration(registrationInEventService.get(mail));
     }
@@ -49,7 +49,7 @@ public class RegistrationInEventController {
         return HttpStatus.OK;
     }
 
-    @DeleteMapping("/news_reg_delete/{id}")
+    @DeleteMapping("/news_reg/delete/{id}")
     public HttpStatus delReg(@PathVariable Long id){
         String user = SecurityContextHolder.getContext().getAuthentication().getName();
 

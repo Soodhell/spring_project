@@ -24,11 +24,12 @@ public class SectionsController {
     private SectionsService sectionsService;
     private UserService userService;
 
-    @PatchMapping("/section/api/set/{id}")
-    public void sectionSet(
-            @PathVariable Long id,
-            @RequestParam("file") MultipartFile file,
-            HttpServletRequest http) {
+    @PatchMapping("/section/set/{id}")
+    public void sectionSet(@PathVariable Long id,
+                           @RequestParam("file") MultipartFile file,
+                           @RequestParam("title") String title,
+                           @RequestParam("content") String content,
+                           @RequestParam("teacher") String teacher) {
         if(!userService.getUser(
                         SecurityContextHolder
                                 .getContext()
@@ -41,20 +42,23 @@ public class SectionsController {
         ) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         sectionsService.setSections(
                 id,
-                http.getParameter("title"),
-                http.getParameter("content"),
+                title,
+                content,
                 file,
-                http.getParameter("teacher")
+                teacher
         );
     }
 
-    @GetMapping("/section/get/{id}")
+    @GetMapping("/sections/get/{id}")
     public PerformanceSections sectionGet(@PathVariable Long id) {
         return RepresentationSections.getPerformanceSection(sectionsService.getSections(id));
     }
 
     @PutMapping("/section/add")
-    public void apiAdd(@RequestParam("file") MultipartFile file, HttpServletRequest http){
+    public void apiAdd(@RequestParam("file") MultipartFile file,
+                       @RequestParam("title") String title,
+                       @RequestParam("content") String content,
+                       @RequestParam("teacher") String teacher){
         if(!userService.getUser(
                         SecurityContextHolder
                                 .getContext()
@@ -66,10 +70,10 @@ public class SectionsController {
                 .equals("ADMIN")
         ) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         sectionsService.save(
-                http.getParameter("title"),
-                http.getParameter("content"),
+                title,
+                content,
                 file,
-                http.getParameter("teacher")
+                teacher
         );
     }
 

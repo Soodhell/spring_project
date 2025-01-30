@@ -49,8 +49,8 @@ public class UserController {
             userService.set(
                     user.getMail(),
                     user.getPassword(),
-                    updateDTO.getFirstname(),
-                    updateDTO.getLastname(),
+                    updateDTO.getFirst_name(),
+                    updateDTO.getLast_name(),
                     "USER"
             );
 

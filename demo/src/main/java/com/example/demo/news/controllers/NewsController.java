@@ -6,6 +6,7 @@ import com.example.demo.representationObjects.news.PerformanceNews;
 import com.example.demo.representationObjects.news.RepresentationNews;
 import com.example.demo.news.services.NewsService;
 import com.example.demo.users.services.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+@Tag(name="news")
 @RestController
 @Data
 @AllArgsConstructor
