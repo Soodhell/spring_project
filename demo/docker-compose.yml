@@ -1,0 +1,26 @@
+
+volumes:
+  pg_demo:
+
+services:
+  demo_db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=132457689090iop
+      - POSTGRES_DB=shoole
+    volumes:
+      - pg_demo:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5433:5432"
+  app:
+    restart: always
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - demo_db
+    environment:
+      SPRING_DATASOURCE_URL: 'jdbc:postgresql://demo_db:5432/shoole'
+      JAVA_OPTS: '-Xmx512m'

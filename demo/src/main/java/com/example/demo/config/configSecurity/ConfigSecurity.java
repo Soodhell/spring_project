@@ -82,7 +82,7 @@ public class ConfigSecurity
     }
 
     @Bean
-    public JWTAuthenticationFilter jwtAuthenticationFilter() {
+    public JWTAuthenticationFilter jwtAuthenticationFilter () {
         return new JWTAuthenticationFilter();
     }
 
