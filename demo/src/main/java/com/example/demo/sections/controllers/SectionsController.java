@@ -19,6 +19,7 @@ import java.util.Map;
 @RestController
 @Data
 @AllArgsConstructor
+@CrossOrigin
 public class SectionsController {
 
     private SectionsService sectionsService;

@@ -17,6 +17,7 @@ import java.util.List;
 @RestController
 @Data
 @AllArgsConstructor
+@CrossOrigin
 public class RegistrationInEventController {
 
     private RegistrationInEventService registrationInEventService;

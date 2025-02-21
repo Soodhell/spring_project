@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Data
 @AllArgsConstructor
+@CrossOrigin
 public class RegistrationSectionController {
 
     private RegistrationSectionService registrationSectionService;

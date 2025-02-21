@@ -22,6 +22,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 @Data
 @AllArgsConstructor
+@CrossOrigin
 public class NewsController {
 
     private NewsService newsService;

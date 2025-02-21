@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Data
 @AllArgsConstructor
+@CrossOrigin
 public class RegistrationController {
 
     private UserService userService;
